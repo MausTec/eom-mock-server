@@ -1,0 +1,7 @@
+{
+  "motor_max_speed": 255,
+  "wifi_on": true,
+  "update_frequency_hz": 50,
+  "sensitivity_threshold": 255,
+  "sensor_sensitivity": 100
+}

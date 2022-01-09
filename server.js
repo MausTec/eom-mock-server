@@ -1,21 +1,11 @@
 const WebSocket = require('ws');
 const Server = new WebSocket.Server({ port: 8080 });
+const fs = require('fs');
 
 console.log('Starting Edge-o-Matic Mock Server at ws://localhost:8080');
 
-var mockConfig = {
-  motor_max_speed: 255,
-  wifi_on: true,
-  update_frequency_hz: 50,
-  sensitivity_threshold: 255,
-  sensor_sensitivity: 100,
-};
-var mockInfo = {
-  device: 'Edge-o-Matic 3000',
-  serial: '',
-  hwVersion: '',
-  fwVersion: '0.1.2',
-};
+var mockConfig = JSON.parse(fs.readFileSync('./config/config.json', 'utf8'));
+var mockInfo = JSON.parse(fs.readFileSync('./config/info.json', 'utf8'));
 var mockMode = 'manual';
 
 // Send sin wave data because why not
@@ -101,7 +91,6 @@ Server.on('connection', (ws) => {
 
         // break;
         case 'configList':
-          resp['configList'] = {};
           resp['configList'] = mockConfig;
           if (commands['configList'] && 'nonce' in commands['configList']) {
             resp['configList']['nonce'] = commands['configList']['nonce'];
